@@ -1,0 +1,25 @@
+{
+  "name": "osmobot-assignment",
+  "version": "1.0.0",
+  "description": "Osmobot dev assignment",
+  "main": "cli.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "osmobot",
+    "ph",
+    "do",
+    "csv",
+    "cli"
+  ],
+  "author": "Luca Silvestri",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^5.14.1",
+    "mocha": "^6.0.1"
+  },
+  "dependencies": {
+    "csv-parse": "^4.3.3"
+  }
+}

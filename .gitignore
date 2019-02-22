@@ -1,0 +1,12 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Private data (not to be committed)
+private
+
+# Lambdabuilder directory
+.lambdabuilder
