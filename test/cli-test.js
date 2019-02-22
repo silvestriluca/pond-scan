@@ -2,6 +2,7 @@ var ampm = require('../cli').ampm;
 var lowPh = require('../cli').lowPh;
 var highPh = require('../cli').highPh;
 var lowDo = require('../cli').lowDo;
+var changingPh = require('../cli').changingPh;
 var assert = require('assert');
 
 describe('Testing AMPM function', function(){
@@ -59,5 +60,18 @@ describe('Testing low-do alarm', function(){
     assert.equal(lowDo(3.9), true, "Error with DO=3.9");
     assert.equal(lowDo('2'), true, 'Error with DO="2"');
     assert.equal(lowDo('hello'), false, "Error with string hello");
+  });
+});
+
+describe('Testing with changing-ph alarm', function(){
+  it('Tries several scenarios', function(){
+    assert.equal(changingPh([4,3,2]), true, "Error scenario 1");
+    assert.equal(changingPh([4,3.9,3.8]), false, "Error scenario 2");
+    assert.equal(changingPh([4,3.9,3.2]), false, "Error scenario 3");
+    assert.equal(changingPh([4,4.5,4]), true, "Error scenario 4");
+    assert.equal(changingPh([4,4.2,4]), true, "Error scenario 5");
+    assert.equal(changingPh([4,4.1,4.3]), false, "Error scenario 6");
+    assert.equal(changingPh([4,4.2,4.4]), true, "Error scenario 7");
+    assert.equal(changingPh([4,3]), false, "Error scenario 8");
   });
 });

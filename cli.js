@@ -100,6 +100,27 @@ function lowDo(doValue){
   }
 }
 
+function changingPh(phArray){
+  //Checks that phArray is an array
+  if(!Array.isArray(phArray)){
+    //Not an array. 
+    return false;
+  } else {
+    //Check if there are enough data to check the changingPh condition (at least 3 measures in the last 2 hours)
+    if (phArray.length < 3) {
+      //Not enough data
+      return false;
+    } else {
+      //Check the changingPh condition
+      if(Math.abs(phArray[0]-phArray[1]) >= 0.2 && Math.abs(phArray[1]-phArray[2]) >= 0.2){
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+}
+
 function main(){
   //Reads the csv file
   fs.readFile(args[0], 'utf8', function(err, data){
@@ -132,3 +153,4 @@ module.exports.ampm = ampm;
 module.exports.lowPh = lowPh;
 module.exports.highPh = highPh;
 module.exports.lowDo = lowDo;
+module.exports.changingPh = changingPh;

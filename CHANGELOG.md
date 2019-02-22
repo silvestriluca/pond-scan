@@ -1,4 +1,5 @@
-## 1.0.0 (Feb 05, 2018)
+## 1.0.0 (Feb 22, 2019)
 
 Initial release
   - cli.js parse a csv file and gives back the error according to the alarms specified in [README-assignment.md](./README-assignment.md)
+  - test suite
