@@ -25,6 +25,7 @@
         "semi": "warn",
         "semi-spacing": "warn",
         "no-extra-parens": "warn",
-        "callback-return":"warn"
+        "callback-return":"warn",
+        "quotes":["warn","single"]
     }
 }

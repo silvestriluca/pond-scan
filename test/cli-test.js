@@ -1,8 +1,11 @@
+/* eslint-env node, mocha */
+/* eslint quotes: ["error", "single"]*/
 var ampm = require('../cli').ampm;
 var lowPh = require('../cli').lowPh;
 var highPh = require('../cli').highPh;
 var lowDo = require('../cli').lowDo;
 var changingPh = require('../cli').changingPh;
+var borderlineDo = require('../cli').borderlineDo;
 var assert = require('assert');
 
 describe('Testing AMPM function', function(){
@@ -33,9 +36,9 @@ describe('Testing low-ph alarm', function(){
     assert.equal(lowPh(9), false, 'Error with ph=9');
     assert.equal(lowPh(6.5), true, 'Error with ph=6.5');
     assert.equal(lowPh(7.9), false, 'Error with ph=7.9');
-    assert.equal(lowPh(7.8), false, "Error with ph=7.8");
+    assert.equal(lowPh(7.8), false, 'Error with ph=7.8');
     assert.equal(lowPh('2'), true, 'Error with ph="2"');
-    assert.equal(lowPh('hello'), false, "Error with string hello");
+    assert.equal(lowPh('hello'), false, 'Error with string hello');
   });
 });
 
@@ -45,9 +48,9 @@ describe('Testing high-ph alarm', function(){
     assert.equal(highPh(9), true, 'Error with ph=9');
     assert.equal(highPh(6.5), false, 'Error with ph=6.5');
     assert.equal(highPh(8.6), true, 'Error with ph=8.6');
-    assert.equal(highPh(8.5), false, "Error with ph=8.5");
+    assert.equal(highPh(8.5), false, 'Error with ph=8.5');
     assert.equal(highPh('2'), false, 'Error with ph="2"');
-    assert.equal(highPh('hello'), false, "Error with string hello");
+    assert.equal(highPh('hello'), false, 'Error with string hello');
   });
 });
 
@@ -57,21 +60,44 @@ describe('Testing low-do alarm', function(){
     assert.equal(lowDo(9), false, 'Error with DO=9');
     assert.equal(lowDo(6.5), false, 'Error with DO=6.5');
     assert.equal(lowDo(4), false, 'Error with DO=4');
-    assert.equal(lowDo(3.9), true, "Error with DO=3.9");
+    assert.equal(lowDo(3.9), true, 'Error with DO=3.9');
     assert.equal(lowDo('2'), true, 'Error with DO="2"');
-    assert.equal(lowDo('hello'), false, "Error with string hello");
+    assert.equal(lowDo('hello'), false, 'Error with string hello');
   });
 });
 
 describe('Testing with changing-ph alarm', function(){
   it('Tries several scenarios', function(){
-    assert.equal(changingPh([4,3,2]), true, "Error scenario 1");
-    assert.equal(changingPh([4,3.9,3.8]), false, "Error scenario 2");
-    assert.equal(changingPh([4,3.9,3.2]), false, "Error scenario 3");
-    assert.equal(changingPh([4,4.5,4]), true, "Error scenario 4");
-    assert.equal(changingPh([4,4.2,4]), true, "Error scenario 5");
-    assert.equal(changingPh([4,4.1,4.3]), false, "Error scenario 6");
-    assert.equal(changingPh([4,4.2,4.4]), true, "Error scenario 7");
-    assert.equal(changingPh([4,3]), false, "Error scenario 8");
+    assert.equal(changingPh([4,3,2]), true, 'Error scenario 1');
+    assert.equal(changingPh([4,3.9,3.8]), false, 'Error scenario 2');
+    assert.equal(changingPh([4,3.9,3.2]), false, 'Error scenario 3');
+    assert.equal(changingPh([4,4.5,4]), true, 'Error scenario 4');
+    assert.equal(changingPh([4,4.2,4]), true, 'Error scenario 5');
+    assert.equal(changingPh([4,4.1,4.3]), false, 'Error scenario 6');
+    assert.equal(changingPh([4,4.2,4.4]), true, 'Error scenario 7');
+    assert.equal(changingPh([4,3]), false, 'Error scenario 8');
+    assert.equal(changingPh(['4','3','2']), true, 'Error scenario 9');
+    assert.equal(changingPh(['4','3.9',3.8]), false, 'Error scenario 10');
+    assert.equal(changingPh(['4','3.9','3.2']), false, 'Error scenario 11');
+    assert.equal(changingPh(['4','4.5','4']), true, 'Error scenario 12');
+    assert.equal(changingPh(['4','4.2','4']), true, 'Error scenario 13');
+    assert.equal(changingPh([4,'4.1','4.3']), false, 'Error scenario 14');
+    assert.equal(changingPh([4,4.2,'4.4']), true, 'Error scenario 15');
+    assert.equal(changingPh(['4','3']), false, 'Error scenario 16');
+    assert.equal(changingPh(['hello', 'bye', 'here']), false, 'Error scenario 17');
+    assert.equal(changingPh(4), false, 'Error scenario 18');
+  });
+});
+
+describe('Testing the borderlineDo alarm', function(){
+  it('Tries several scenarios', function(){
+    assert.equal(borderlineDo([2,3,4,3]), true, 'Error scenario 1');
+    assert.equal(borderlineDo([2,3,5,3]), false, 'Error scenario 2');
+    assert.equal(borderlineDo([6,3,4,3]), false, 'Error scenario 3');
+    assert.equal(borderlineDo([2,3,4,3,6]), true, 'Error scenario 4');
+    assert.equal(borderlineDo([2,3]), false, 'Error scenario 5');
+    assert.equal(borderlineDo([2,'3',4,3]), true, 'Error scenario 6');
+    assert.equal(borderlineDo(['hello', 'bye', 'here', 'sure']), false, 'Error scenario 7');
+    assert.equal(borderlineDo(5), false, 'Error scenario 8');
   });
 });

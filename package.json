@@ -4,7 +4,7 @@
   "description": "Osmobot dev assignment",
   "main": "cli.js",
   "scripts": {
-    "test": "mocha"
+    "test": "nyc --reporter=html --reporter=text mocha"
   },
   "keywords": [
     "osmobot",
@@ -17,7 +17,8 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "eslint": "^5.14.1",
-    "mocha": "^6.0.1"
+    "mocha": "^6.0.1",
+    "nyc": "^13.3.0"
   },
   "dependencies": {
     "csv-parse": "^4.3.3"

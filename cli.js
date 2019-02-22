@@ -6,6 +6,13 @@ const fs = require('fs');
 //Read the command line arguments
 const [,, ...args] = process.argv;
 
+//Threshold values for alarms
+const HIGH_PH = 8.5;
+const LOW_PH = 7.8;
+const CHANGING_PH = 0.2;
+const LOW_DO = 4;
+const BORDERLINE_DO = 5;
+
 /**
  *Converts 24h to AMPM notation
  *
@@ -44,7 +51,7 @@ function lowPh(ph){
     return false;
   } else {
     //Check threshold value
-    if(parseFloat(ph) < 7.8){
+    if(parseFloat(ph) < LOW_PH){
       //low Ph
       return true;
     } else {
@@ -67,7 +74,7 @@ function highPh(ph){
     return false;
   } else {
     //Check threshold value
-    if(parseFloat(ph) > 8.5){
+    if(parseFloat(ph) > HIGH_PH){
       //low Ph
       return true;
     } else {
@@ -90,7 +97,7 @@ function lowDo(doValue){
     return false;
   } else {
     //Check threshold value
-    if(parseFloat(doValue) < 4){
+    if(parseFloat(doValue) < LOW_DO){
       //low DO
       return true;
     } else {
@@ -100,6 +107,12 @@ function lowDo(doValue){
   }
 }
 
+/**
+ * Returns true if the ph change rate is over a given threshold value in the last 2 hours
+ *
+ * @param {[string | number]} phArray The last 3 hourly measurement of pH, in chronological order
+ * @returns {boolean} True if ph is changing too quickly
+ */
 function changingPh(phArray){
   //Checks that phArray is an array
   if(!Array.isArray(phArray)){
@@ -111,11 +124,62 @@ function changingPh(phArray){
       //Not enough data
       return false;
     } else {
+      //Checks that there are not common strings - like "hello" - in the array.
+      for (let i = 0; i < phArray.length; i++) {
+        const element = phArray[i];
+        if(isNaN(element)){
+          return false;
+        }
+      }
       //Check the changingPh condition
-      if(Math.abs(phArray[0]-phArray[1]) >= 0.2 && Math.abs(phArray[1]-phArray[2]) >= 0.2){
+      if(Math.abs(parseFloat(phArray[0])-parseFloat(phArray[1])) >= CHANGING_PH && Math.abs(parseFloat(phArray[1])-parseFloat(phArray[2])) >= CHANGING_PH){
         return true;
       } else {
         return false;
+      }
+    }
+  }
+}
+
+/**
+ *  Returns true if the DO is under a given threshold value in the last 3 hours
+ *
+ * @param {[string | number]} doArray The last 4 hourly measurement of DO, in chronological order
+ * @returns {boolean} True if DO is consistently low under a certain threshold
+ */
+function borderlineDo(doArray){
+  //Checks that phArray is an array
+  if(!Array.isArray(doArray)){
+    //Not an array
+    return false;
+  } else {
+    //Check if there are enough data (at least 4 measurements in the last 3 hours)
+    if (doArray.length < 4){
+      //Not enough data
+      return false;
+    } else {
+      let wentAboveLimit = false; //Initial value
+      for (let i = 0; i < 4; i++) {
+        const element = parseFloat(doArray[i]);
+        //Checks that there are not common strings - like "hello" - in the array.
+        if(isNaN(element)){
+          return false;
+        }
+        //Checks if anytime during the [for] cycle the DO level was above the threshold BORDERLINE_DO
+        if(!wentAboveLimit){
+          if(element < BORDERLINE_DO){
+            wentAboveLimit = false;
+          } else {
+            //DO is above the threshold limit. 
+            wentAboveLimit = true;
+          }
+        }
+      }
+      //The alarm triggers if all 4 measures are under the threshold BORDERLINE_DO (wentAboveLimit === false)
+      if(wentAboveLimit){
+        return false;
+      } else {
+        return true;
       }
     }
   }
@@ -154,3 +218,4 @@ module.exports.lowPh = lowPh;
 module.exports.highPh = highPh;
 module.exports.lowDo = lowDo;
 module.exports.changingPh = changingPh;
+module.exports.borderlineDo = borderlineDo;

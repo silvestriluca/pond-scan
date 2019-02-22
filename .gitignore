@@ -10,3 +10,7 @@ private
 
 # Lambdabuilder directory
 .lambdabuilder
+
+#Istanbul artifacts
+coverage
+.nyc_output
