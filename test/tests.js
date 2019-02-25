@@ -1,11 +1,11 @@
 /* eslint-env node, mocha */
 /* eslint quotes: ["error", "single"]*/
-var ampm = require('../cli').ampm;
-var lowPh = require('../cli').lowPh;
-var highPh = require('../cli').highPh;
-var lowDo = require('../cli').lowDo;
-var changingPh = require('../cli').changingPh;
-var borderlineDo = require('../cli').borderlineDo;
+var ampm = require('../modules/utils').ampm;
+var lowPh = require('../modules/alarm-definitions').lowPh;
+var highPh = require('../modules/alarm-definitions').highPh;
+var lowDo = require('../modules/alarm-definitions').lowDo;
+var changingPh = require('../modules/alarm-definitions').changingPh;
+var borderlineDo = require('../modules/alarm-definitions').borderlineDo;
 var assert = require('assert');
 
 describe('Testing AMPM function', function(){
