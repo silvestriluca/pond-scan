@@ -97,7 +97,6 @@ class Alarms {
           measurementArray.push(this.dataMatrix[hour24-i][2]);
         }        
       }
-      console.log(measurementArray);
       return changingPh(measurementArray);
     }
   }
@@ -124,7 +123,7 @@ class Alarms {
           measurementArray.push(this.dataMatrix[hour24-i][1]);
         }        
       }
-      console.log(measurementArray);
+      //console.log(measurementArray);
       return borderlineDo(measurementArray);
     }
   }

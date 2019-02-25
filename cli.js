@@ -1,12 +1,18 @@
 #!/usr/bin/env node
 
 var readCsvFile = require('./modules/utils').readCsvFile;
+var ampm = require('./modules/utils').ampm;
+var Alarms = require('./classes/alarm');
 
 //Read the command line arguments
 const [,, ...args] = process.argv;
 
 
 
+/**
+ *Executes at startup
+ *
+ */
 function main(){
   //Reads the csv file
   readCsvFile(args[0], function(err, parsedArray){
@@ -14,7 +20,26 @@ function main(){
       console.error(err);
       return err;
     } else {
-      console.log(parsedArray);
+      //Instantiate the Alarms class
+      var alarms = new Alarms(parsedArray);
+      //Scans all the 24 hours
+      for (let i = 0; i < 24; i++) {
+        if(alarms.ringsLowPh(i)){
+          console.log(ampm(i) + ': ALERT low-pH');
+        }
+        if(alarms.ringsHighPh(i)){
+          console.log(ampm(i) + ': ALERT high-pH');
+        }
+        if(alarms.ringsLowDo(i)){
+          console.log(ampm(i) + ': ALERT low-DO');
+        }
+        if(alarms.ringsChangingPh(i)){
+          console.log(ampm(i) + ': ALERT changing-pH');
+        }
+        if(alarms.ringsBorderlineDo(i)){
+          console.log(ampm(i) + ': ALERT borderline-DO');
+        }                       
+      }
     }
   });
 }
