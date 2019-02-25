@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
+//Import classes and utils
 var readCsvFile = require('./modules/utils').readCsvFile;
 var ampm = require('./modules/utils').ampm;
-var Alarms = require('./classes/alarm');
+var Alarms = require('./classes/alarm');    //Import the Alarms class
 
 //Read the command line arguments
 const [,, ...args] = process.argv;
-
 
 
 /**
@@ -26,7 +26,7 @@ function main(){
       } else {
         //Instantiate the Alarms class
         var alarms = new Alarms(parsedArray);
-        //Scans all the 24 hours
+        //Scans all the 24 hours for alarms
         for (let i = 0; i < 24; i++) {
           if(alarms.ringsLowPh(i)){
             console.log(ampm(i) + ': ALERT low-pH');
