@@ -107,7 +107,6 @@ describe('Testing the borderlineDo alarm', function(){
 describe('Testing ReadCsvFile utility', function(){
   describe('Tries to read several files', function(){
     this.timeout(20000);
-    console.log('pass');
     it('Good file', function(done){
       readCsvFile('./test/test_data.csv', function(err, data){
         if(err){
@@ -130,7 +129,7 @@ describe('Testing ReadCsvFile utility', function(){
     });
 
     it('Not a CSV, length 0', function(done){
-      readCsvFile('./README.md', function(err, data){
+      readCsvFile('./test/empty.csv', function(err, data){
         assert.equal(err.message, 'Not a valid csv: [] length === 0', 'Wrong message');
         assert.equal(data, null, 'Data is not null');
         done();
@@ -155,7 +154,7 @@ describe('Tests Alarms class', function(){
     readCsvFile('./test/test_data.csv', function(err,data){
       if(err){done(err);} else {
         testData = data;
-        console.log(testData);
+        //console.log(testData);
         done();
       }
     });
