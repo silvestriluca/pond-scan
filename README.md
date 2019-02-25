@@ -19,7 +19,13 @@ OR
 
 ### To run tests:
 The package includes a **full test coverage**.
-Go inside the repo directory and run: `npm test`
+Go inside the repo directory and run: 
+
+`npm test`
+
+Once executed you can find the coverage report in a neat html format:
+1. `cd coverage`
+2. open with a browser the file `index.html`
 
 ### Notes:
 The code is fully commented.
