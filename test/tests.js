@@ -124,6 +124,7 @@ describe('Testing ReadCsvFile utility', function(){
       readCsvFile('./test/not_exist', function(err, data){
         assert.equal(err.code, 'ENOENT', 'Wrong error');
         assert.equal(err.message, 'File not found!', 'Wrong message');
+        assert.equal(data, null, 'Data is not null');
         done();
       });
     });
@@ -131,6 +132,7 @@ describe('Testing ReadCsvFile utility', function(){
     it('Not a CSV, length 0', function(done){
       readCsvFile('./README.md', function(err, data){
         assert.equal(err.message, 'Not a valid csv: [] length === 0', 'Wrong message');
+        assert.equal(data, null, 'Data is not null');
         done();
       });
     });
@@ -139,6 +141,7 @@ describe('Testing ReadCsvFile utility', function(){
       readCsvFile('./package.json', function(err, data){
         assert.notEqual(err,null, 'Error is null');
         assert.equal(err.message, 'Not a valid csv: Invalid opening quote at line 2', 'Wrong message');
+        assert.equal(data, null, 'Data is not null');
         done();
       });
     });    
@@ -162,6 +165,39 @@ describe('Tests Alarms class', function(){
     let alarms = new Alarms(testData);
     assert.equal(alarms.ringsLowPh(1), false, 'Alarm triggered @1am');
     assert.equal(alarms.ringsLowPh(3), true, 'Alarm not triggered @ 3am');
-    assert.throws(() => {alarms.ringsLowPh(26)}, 'Does not trigger error @26');
+    assert.throws(() => {alarms.ringsLowPh(26);}, 'Does not trigger error @26');
   });
+
+  it('Test alarm Alarms.ringsHighPh', function(){
+    let alarms = new Alarms(testData);
+    assert.equal(alarms.ringsHighPh(1), false, 'Alarm triggered @1am');
+    assert.equal(alarms.ringsHighPh(16), true, 'Alarm not triggered @ 16');
+    assert.throws(() => {alarms.ringsHighPh(26);}, 'Does not trigger error @26');
+  });
+
+  it('Test alarm Alarms.ringsLowDo', function(){
+    let alarms = new Alarms(testData);
+    assert.equal(alarms.ringsLowDo(1), false, 'Alarm triggered @1am');
+    assert.equal(alarms.ringsLowDo(21), true, 'Alarm not triggered @ 21');
+    assert.throws(() => {alarms.ringsLowDo(26);}, 'Does not trigger error @26');
+  });
+
+  it('Test alarm Alarms.ringsChangingPh', function(){
+    let alarms = new Alarms(testData);
+    assert.equal(alarms.ringsChangingPh(4), false, 'Alarm triggered @4am');
+    assert.equal(alarms.ringsChangingPh(14), true, 'Alarm not triggered @ 14am');
+    assert.throws(() => {alarms.ringsChangingPh(26);}, 'Does not trigger error @26');
+    assert.equal(alarms.ringsChangingPh(1), false, 'Alarm triggered @1am');
+    assert.equal(alarms.ringsChangingPh(0), false, 'Alarm triggered @0am');
+  });
+
+  it('Test alarm Alarms.ringsBorderlineDo', function(){
+    let alarms = new Alarms(testData);
+    assert.equal(alarms.ringsBorderlineDo(3), true, 'Alarm not triggered @3am');
+    assert.equal(alarms.ringsBorderlineDo(14), false, 'Alarm triggered @ 14');
+    assert.throws(() => {alarms.ringsBorderlineDo(26);}, 'Does not trigger error @26');
+    assert.equal(alarms.ringsBorderlineDo(1), false, 'Alarm triggered @1am');
+    assert.equal(alarms.ringsBorderlineDo(0), false, 'Alarm triggered @0am');
+  });
+
 });
