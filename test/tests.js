@@ -7,6 +7,7 @@ var highPh = require('../modules/alarm-definitions').highPh;
 var lowDo = require('../modules/alarm-definitions').lowDo;
 var changingPh = require('../modules/alarm-definitions').changingPh;
 var borderlineDo = require('../modules/alarm-definitions').borderlineDo;
+var Alarms = require('../classes/alarm');
 var assert = require('assert');
 
 describe('Testing AMPM function', function(){
@@ -112,7 +113,6 @@ describe('Testing ReadCsvFile utility', function(){
         if(err){
           done(err);
         } else {
-          console.log(data);
           assert.equal(Array.isArray(data), true, 'Not an array');
           assert.equal(data.length > 0, true, 'Array of zero length');
           done();
@@ -137,11 +137,28 @@ describe('Testing ReadCsvFile utility', function(){
 
     it('Not a CSV', function(done){
       readCsvFile('./package.json', function(err, data){
-        console.log(err.name);
         assert.notEqual(err,null, 'Error is null');
         assert.equal(err.message, 'Not a valid csv: Invalid opening quote at line 2', 'Wrong message');
         done();
       });
     });    
+  });
+});
+
+describe('Tests Alarms class', function(){
+  let testData = [];
+  before('Preparing test data', function(done){
+    this.timeout(20000);
+    readCsvFile('./test/test_data.csv', function(err,data){
+      if(err){done(err);} else {
+        testData = data;
+        console.log(testData);
+        done();
+      }
+    });
+  });
+  
+  it('Test alarm 01', function(done){
+    done();
   });
 });
