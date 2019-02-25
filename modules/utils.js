@@ -44,8 +44,6 @@ function readCsvFile(path, cb){
       if(err.code === 'ENOENT') {
         //console.error('File not found!');
         readFileError.message = 'File not found!';        
-      } else {
-        //console.error(err);
       }
       return cb(readFileError, null);
     } else {

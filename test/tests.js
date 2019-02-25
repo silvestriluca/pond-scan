@@ -1,6 +1,7 @@
 /* eslint-env node, mocha */
 /* eslint quotes: ["error", "single"]*/
 var ampm = require('../modules/utils').ampm;
+var readCsvFile = require('../modules/utils').readCsvFile;
 var lowPh = require('../modules/alarm-definitions').lowPh;
 var highPh = require('../modules/alarm-definitions').highPh;
 var lowDo = require('../modules/alarm-definitions').lowDo;
@@ -99,5 +100,48 @@ describe('Testing the borderlineDo alarm', function(){
     assert.equal(borderlineDo([2,'3',4,3]), true, 'Error scenario 6');
     assert.equal(borderlineDo(['hello', 'bye', 'here', 'sure']), false, 'Error scenario 7');
     assert.equal(borderlineDo(5), false, 'Error scenario 8');
+  });
+});
+
+describe('Testing ReadCsvFile utility', function(){
+  describe('Tries to read several files', function(){
+    this.timeout(20000);
+    console.log('pass');
+    it('Good file', function(done){
+      readCsvFile('./test/test_data.csv', function(err, data){
+        if(err){
+          done(err);
+        } else {
+          console.log(data);
+          assert.equal(Array.isArray(data), true, 'Not an array');
+          assert.equal(data.length > 0, true, 'Array of zero length');
+          done();
+        }
+      });
+    });
+
+    it('File not found', function(done){
+      readCsvFile('./test/not_exist', function(err, data){
+        assert.equal(err.code, 'ENOENT', 'Wrong error');
+        assert.equal(err.message, 'File not found!', 'Wrong message');
+        done();
+      });
+    });
+
+    it('Not a CSV, length 0', function(done){
+      readCsvFile('./README.md', function(err, data){
+        assert.equal(err.message, 'Not a valid csv: [] length === 0', 'Wrong message');
+        done();
+      });
+    });
+
+    it('Not a CSV', function(done){
+      readCsvFile('./package.json', function(err, data){
+        console.log(err.name);
+        assert.notEqual(err,null, 'Error is null');
+        assert.equal(err.message, 'Not a valid csv: Invalid opening quote at line 2', 'Wrong message');
+        done();
+      });
+    });    
   });
 });
