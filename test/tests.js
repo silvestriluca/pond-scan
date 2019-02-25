@@ -158,7 +158,10 @@ describe('Tests Alarms class', function(){
     });
   });
   
-  it('Test alarm 01', function(done){
-    done();
+  it('Test alarm Alarms.ringsLowPh', function(){
+    let alarms = new Alarms(testData);
+    assert.equal(alarms.ringsLowPh(1), false, 'Alarm triggered @1am');
+    assert.equal(alarms.ringsLowPh(3), true, 'Alarm not triggered @ 3am');
+    assert.throws(() => {alarms.ringsLowPh(26)}, 'Does not trigger error @26');
   });
 });

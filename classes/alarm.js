@@ -22,7 +22,14 @@ class Alarms {
   }
 
   ringsLowPh(hour24){
-
+    //Tests if an out of range parameter has been submitted
+    if(hour24 < 0 || hour24 > 23){
+      let err = new Error('Wrong parameter (hour24 has to be between 0 and 23)');
+      err.code = 'ERRPARAM';
+      throw err;
+    } else {
+      return lowPh(this.dataMatrix[hour24][2]);
+    }
   }
 }
 
