@@ -15,7 +15,7 @@
   ],
   "author": "Luca Silvestri",
   "license": "UNLICENSED",
-  "bin":{
+  "bin": {
     "pond-scan": "./cli.js"
   },
   "devDependencies": {

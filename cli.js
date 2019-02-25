@@ -14,34 +14,39 @@ const [,, ...args] = process.argv;
  *
  */
 function main(){
-  //Reads the csv file
-  readCsvFile(args[0], function(err, parsedArray){
-    if(err){
-      console.error(err);
-      return err;
-    } else {
-      //Instantiate the Alarms class
-      var alarms = new Alarms(parsedArray);
-      //Scans all the 24 hours
-      for (let i = 0; i < 24; i++) {
-        if(alarms.ringsLowPh(i)){
-          console.log(ampm(i) + ': ALERT low-pH');
+  //Checks if arguments have been supplied
+  if(!args[0]){
+    console.log('Please specify a .csv file');
+  } else {
+    //Reads the csv file
+    readCsvFile(args[0], function(err, parsedArray){
+      if(err){
+        console.error(err);
+        return err;
+      } else {
+        //Instantiate the Alarms class
+        var alarms = new Alarms(parsedArray);
+        //Scans all the 24 hours
+        for (let i = 0; i < 24; i++) {
+          if(alarms.ringsLowPh(i)){
+            console.log(ampm(i) + ': ALERT low-pH');
+          }
+          if(alarms.ringsHighPh(i)){
+            console.log(ampm(i) + ': ALERT high-pH');
+          }
+          if(alarms.ringsLowDo(i)){
+            console.log(ampm(i) + ': ALERT low-DO');
+          }
+          if(alarms.ringsChangingPh(i)){
+            console.log(ampm(i) + ': ALERT changing-pH');
+          }
+          if(alarms.ringsBorderlineDo(i)){
+            console.log(ampm(i) + ': ALERT borderline-DO');
+          }                       
         }
-        if(alarms.ringsHighPh(i)){
-          console.log(ampm(i) + ': ALERT high-pH');
-        }
-        if(alarms.ringsLowDo(i)){
-          console.log(ampm(i) + ': ALERT low-DO');
-        }
-        if(alarms.ringsChangingPh(i)){
-          console.log(ampm(i) + ': ALERT changing-pH');
-        }
-        if(alarms.ringsBorderlineDo(i)){
-          console.log(ampm(i) + ': ALERT borderline-DO');
-        }                       
       }
-    }
-  });
+    });
+  }
 }
 
 main();
