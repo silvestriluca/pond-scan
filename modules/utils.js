@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+var parse = require('csv-parse');
+const fs = require('fs');
+
 /**
  *Converts 24h to AMPM notation
  *
@@ -25,4 +28,48 @@ function ampm(hour24){
   }
 }
 
+/**
+ *Read a CSV file
+ *
+ * @param {string} path The path of csv file
+ * @param {function(Error, [[string]])} cb Callback(err, data)
+ */
+function readCsvFile(path, cb){
+  //Reads the csv file
+  fs.readFile(path, 'utf8', function(err, data){
+    if(err){
+      let readFileError = new Error('Error on reading file: ' + err.message);
+      readFileError.returnedError = err;
+      readFileError.code = err.code;
+      if(err.code === 'ENOENT') {
+        //console.error('File not found!');
+        readFileError.message = 'File not found!';        
+      } else {
+        //console.error(err);
+      }
+      return cb(readFileError, null);
+    } else {
+      //Parse the csv starting from line 2 to avoid headers
+      parse(data,{from_line: 2},function(err,parsedArray){
+        if(err){
+          //console.error('Not a valid csv');
+          let invalidCsv = new Error('Not a valid csv: ' + err.message);
+          invalidCsv.returnedError = err;
+          return cb(invalidCsv, null);
+        } else {
+          if(parsedArray.length === 0){
+            //console.error('Not a valid csv');
+            let errorLength = new Error('Not a valid csv: [] length === 0');
+            return cb(errorLength, null);
+          } else {
+            return cb(null, parsedArray);
+          }
+        }
+      });
+    }
+  });
+}
+
+//Exporting statements
 module.exports.ampm = ampm;
+module.exports.readCsvFile = readCsvFile;
