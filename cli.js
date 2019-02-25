@@ -49,4 +49,5 @@ function main(){
   }
 }
 
+//Begins execution
 main();
