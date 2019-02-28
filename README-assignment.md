@@ -1,19 +1,4 @@
-# Osmo Systems Homework Problem
-Note: *Please do not share the nature or details of this problem with anyone. We'd like it to be fresh for new applicants!*
-
-Applicant!
-
-Welcome and thank you for considering Osmo.
-
-At Osmo Systems, our focus is on monitoring water quality in fish farms, and providing key data to farmers in order to increase efficiency and avoid catastrophic collapse.
-
-Your mission, should you choose to accept it, is to write code to analyze water quality measurements and provide *alerts* based on those measurements. The specifics of this task are detailed below. **Read carefully, feel free to ask questions, and have fun!**
-
-Please use a modern language, e.g. python, ruby, javascript/node. Within that constraint, use the language that you're most comfortable with for solving this problem.
-
-Spend no more than 4 hours on this problem. It’s OK if you’re not 100% done during that time; just turn in what you have!
-
-## The Specifics
+## The Specifics 
 
 Write a program that a user can run from the command line which reads a .csv containing water quality measurements for a pond and outputs *alerts* for water measurements that are out of spec.
 
@@ -50,24 +35,3 @@ Your code should be run from the command line, and the command line interaction 
     4pm: ALERT low-DO
     6pm: ALERT low-pH
     9pm: ALERT low-temperature
-
-## What we're looking for
-
-As you are completing this problem, keep in mind that we’d like to see you to demonstrate:
- - Ability to turn a spec into well-built, reliable, readable, maintainable code
- - Familiarity with your choice of language
- - Attention to detail
- - Problem-solving
- - Possibly a little bit of **flair** ;)
-
-
-## What's next?
-
-Please send your solution to us as a .zip package. One of our devs will then run and evaluate your code.
-
-If you're invited to the next stage in our hiring process, we will expand on your code during a pairing exercise that introduces new requirements.
-
-
-## Questions?
-
-If there's something you don't understand, or think should be different, don't hesitate to drop us a line!
