@@ -1,7 +1,7 @@
 {
-  "name": "osmobot-assignment",
+  "name": "pond-scan",
   "version": "1.0.0",
-  "description": "Osmobot dev assignment",
+  "description": "Pond-scan. A cli tool that scans csv files for aquarium data",
   "main": "cli.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha"
@@ -14,7 +14,7 @@
     "cli"
   ],
   "author": "Luca Silvestri",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-or-later",
   "bin": {
     "pond-scan": "./cli.js"
   },
